@@ -17,6 +17,12 @@ public class AddressComponentResource {
     @Inject
     AddressService addressService;
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public AddressComponent create(AddressComponent addressComponent) {
+        return addressService.create(addressComponent);
+    }
+
     @GET
     @Path("/{id}")
     public AddressComponent get(@PathParam("id") String id) {
