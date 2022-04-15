@@ -2,11 +2,15 @@ package com.nikmonkov.address.resource;
 
 import com.nikmonkov.address.database.entity.AddressComponentEntity;
 import com.nikmonkov.address.database.repo.AddressComponentRepository;
+import com.nikmonkov.address.model.AddressComponent;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 
@@ -30,6 +34,11 @@ class AddressComponentResourceTest {
 
     @Test
     void create() {
+        given()
+                .contentType(ContentType.JSON)
+                .body(new AddressComponent(UUID.randomUUID().toString(), "test", null))
+                .when().post("/api/v1/address")
+                .then().statusCode(200);
     }
 
     @Test

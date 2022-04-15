@@ -3,6 +3,8 @@ package com.nikmonkov.address.service;
 import com.nikmonkov.address.database.entity.AddressComponentEntity;
 import com.nikmonkov.address.database.repo.AddressComponentRepository;
 import com.nikmonkov.address.model.AddressComponent;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -17,10 +19,11 @@ public class AddressService {
     @Inject
     AddressComponentRepository addressComponentRepository;
 
-    List<AddressComponent> data = Arrays.asList(new AddressComponent("1", "one", null), new AddressComponent("2", "two", null));
-
+    @Timed(name = "getById")
+    @Counted(name = "getByIdCount")
     public AddressComponent getById(String id) {
-        return new AddressComponent(id, "test", null);
+        AddressComponentEntity addressComponentEntity = addressComponentRepository.findById(id);
+        return new AddressComponent(addressComponentEntity.getId(), addressComponentEntity.getName(), null);
     }
 
     public List<AddressComponent> searchAddress(String name) {
