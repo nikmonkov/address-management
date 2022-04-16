@@ -26,7 +26,9 @@ public class AddressComponentResource {
     @GET
     @Path("/{id}")
     public AddressComponent get(@PathParam("id") String id) {
-
+        if (StringUtils.isEmpty(id)) {
+            throw new BadRequestException();
+        }
         return addressService.getById(id);
     }
 
