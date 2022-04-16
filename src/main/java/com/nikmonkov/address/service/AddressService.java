@@ -3,8 +3,6 @@ package com.nikmonkov.address.service;
 import com.nikmonkov.address.database.entity.AddressComponentEntity;
 import com.nikmonkov.address.database.repo.AddressComponentRepository;
 import com.nikmonkov.address.model.AddressComponent;
-import org.eclipse.microprofile.metrics.annotation.Counted;
-import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -18,8 +16,6 @@ public class AddressService {
     @Inject
     AddressComponentRepository addressComponentRepository;
 
-    @Timed(name = "getById")
-    @Counted(name = "getByIdCount")
     public AddressComponent getById(String id) {
         AddressComponentEntity addressComponentEntity = addressComponentRepository.findById(id);
         return convertToDto(addressComponentEntity);

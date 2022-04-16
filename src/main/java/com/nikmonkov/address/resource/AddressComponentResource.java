@@ -3,6 +3,8 @@ package com.nikmonkov.address.resource;
 import com.nikmonkov.address.model.AddressComponent;
 import com.nikmonkov.address.service.AddressService;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -19,12 +21,16 @@ public class AddressComponentResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Timed(name = "createAddressComponent")
+    @Counted(name = "createAddressComponentCount")
     public AddressComponent create(AddressComponent addressComponent) {
         return addressService.create(addressComponent);
     }
 
     @GET
     @Path("/{id}")
+    @Timed(name = "getById")
+    @Counted(name = "getByIdCount")
     public AddressComponent get(@PathParam("id") String id) {
         if (StringUtils.isEmpty(id)) {
             throw new BadRequestException();
