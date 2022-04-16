@@ -24,6 +24,9 @@ public class AddressComponentResource {
     @Timed(name = "createAddressComponent")
     @Counted(name = "createAddressComponentCount")
     public AddressComponent create(AddressComponent addressComponent) {
+        if (StringUtils.isEmpty(addressComponent.getName())) {
+            throw new BadRequestException();
+        }
         return addressService.create(addressComponent);
     }
 
