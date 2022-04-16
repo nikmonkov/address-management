@@ -1,11 +1,15 @@
 package com.nikmonkov.address.database.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "ADDRESS_COMPONENT")
 public class AddressComponentEntity {
