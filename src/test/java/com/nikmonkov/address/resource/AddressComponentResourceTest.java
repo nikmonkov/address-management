@@ -3,7 +3,6 @@ package com.nikmonkov.address.resource;
 import com.nikmonkov.address.database.entity.AddressComponentEntity;
 import com.nikmonkov.address.database.repo.AddressComponentRepository;
 import com.nikmonkov.address.model.AddressComponent;
-import com.nikmonkov.address.service.AddressService;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import io.restassured.http.ContentType;
@@ -24,20 +23,17 @@ class AddressComponentResourceTest {
     @InjectMock
     AddressComponentRepository addressComponentRepository;
 
-    @InjectMock
-    AddressService addressService;
-
     @BeforeEach
     void setUp() {
         Mockito.when(addressComponentRepository.findById(Mockito.any()))
                 .thenReturn(new AddressComponentEntity("1", "test", null));
 
-        Mockito.when(addressService.searchAddress(Mockito.any()))
-                .thenReturn(List.of(new AddressComponent("1", "test", null)));
+        Mockito.when(addressComponentRepository.findByName(Mockito.any()))
+                .thenReturn(List.of(new AddressComponentEntity("1", "test", null)));
     }
 
     @Test
-    void get() {
+    void getById() {
         given()
                 .when().get("/api/v1/address/1")
                 .then().statusCode(200)

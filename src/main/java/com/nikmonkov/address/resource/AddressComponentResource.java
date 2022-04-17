@@ -34,7 +34,7 @@ public class AddressComponentResource {
     @Path("/{id}")
     @Timed(name = "getById")
     @Counted(name = "getByIdCount")
-    public AddressComponent get(@PathParam("id") String id) {
+    public AddressComponent getById(@PathParam("id") String id) {
         if (StringUtils.isEmpty(id)) {
             throw new BadRequestException();
         }
