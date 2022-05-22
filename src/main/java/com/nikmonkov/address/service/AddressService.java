@@ -55,7 +55,8 @@ public class AddressService {
         if (addressComponent.getId() != null) {
             entity = addressComponentRepository.findById(addressComponent.getId());
             if (entity == null) {
-                throw new RuntimeException("address component with id = " + addressComponent.getId() + " doesn't exist");
+                throw new RuntimeException("address component with id = " + addressComponent.getId()
+                        + " doesn't exist");
             }
         } else {
             entity = new AddressComponentEntity();
