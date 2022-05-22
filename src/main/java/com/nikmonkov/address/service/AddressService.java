@@ -18,6 +18,9 @@ public class AddressService {
 
     public AddressComponent getById(String id) {
         AddressComponentEntity addressComponentEntity = addressComponentRepository.findById(id);
+        if (addressComponentEntity == null) {
+            return null;
+        }
         return convertToDto(addressComponentEntity);
     }
 

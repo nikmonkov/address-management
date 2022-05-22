@@ -24,14 +24,17 @@ class AddressComponentResourceTest {
 
     @BeforeEach
     void setUp() {
-        Mockito.when(addressComponentRepository.findById(Mockito.any()))
+        Mockito.when(addressComponentRepository.findById("1"))
                 .thenReturn(new AddressComponentEntity("1", "test", null));
 
-        Mockito.when(addressComponentRepository.findByName(Mockito.any()))
+        Mockito.when(addressComponentRepository.findByName("test"))
                 .thenReturn(List.of(new AddressComponentEntity("1", "test", null)));
 
-        Mockito.when(addressComponentRepository.findByParentId(Mockito.any()))
+        Mockito.when(addressComponentRepository.findByParentId("parent"))
                 .thenReturn(List.of(new AddressComponentEntity("1", "test", null)));
+
+        Mockito.when(addressComponentRepository.findById("new"))
+                .thenReturn(new AddressComponentEntity("new", "test", null));
     }
 
     @Test
@@ -43,10 +46,17 @@ class AddressComponentResourceTest {
     }
 
     @Test
+    void getByIdNotFound() {
+        given()
+                .when().get("/api/v1/address/2")
+                .then().statusCode(404);
+    }
+
+    @Test
     void successfulCreate() {
         given()
                 .contentType(ContentType.JSON)
-                .body(new AddressComponent(UUID.randomUUID().toString(), "test", null))
+                .body(new AddressComponent("new", "test", null))
                 .when().post("/api/v1/address")
                 .then().statusCode(200);
     }
@@ -69,10 +79,26 @@ class AddressComponentResourceTest {
     }
 
     @Test
+    void searchByNameIsEmpty() {
+        given()
+                .when().get("/api/v1/address/search?name=test2")
+                .then().statusCode(200)
+                .body("size()", is(0));
+    }
+
+    @Test
     void getByParent() {
         given()
-                .when().get("/api/v1/address?parent_id=1")
+                .when().get("/api/v1/address?parent_id=parent")
                 .then().statusCode(200)
                 .body("size()", is(1));
+    }
+
+    @Test
+    void getByParentIsEmpty() {
+        given()
+                .when().get("/api/v1/address?parent_id=2")
+                .then().statusCode(200)
+                .body("size()", is(0));
     }
 }
