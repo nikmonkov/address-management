@@ -42,14 +42,6 @@ public class AddressService {
         return convertToDto(byId);
     }
 
-    private void fillFields(AddressComponent addressComponent, AddressComponentEntity entity) {
-        addressComponent.setId(entity.getId());
-        addressComponent.setName(entity.getName());
-        if (entity.getParent() != null) {
-            fillFields(addressComponent.getParent(), entity.getParent());
-        }
-    }
-
     private AddressComponentEntity convertToEntity(AddressComponent addressComponent) {
         AddressComponentEntity entity;
         if (addressComponent.getId() != null) {
@@ -67,5 +59,12 @@ public class AddressService {
             entity.setParent(convertToEntity(addressComponent.getParent()));
         }
         return entity;
+    }
+
+    public List<AddressComponent> findByParentId(String parentId) {
+        List<AddressComponentEntity> entities = addressComponentRepository.findByParentId(parentId);
+        List<AddressComponent> addressComponents = entities.stream().map(this::convertToDto)
+                .collect(Collectors.toList());
+        return addressComponents;
     }
 }

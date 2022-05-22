@@ -32,7 +32,7 @@ public class AddressComponentResource {
     @Counted(name = "createAddressComponentCount")
     public AddressComponent create(AddressComponent addressComponent) {
         if (StringUtils.isEmpty(addressComponent.getName())) {
-            throw new BadRequestException();
+            throw new BadRequestException("name is not specified");
         }
         return addressService.create(addressComponent);
     }
@@ -43,7 +43,7 @@ public class AddressComponentResource {
     @Counted(name = "getByIdCount")
     public AddressComponent getById(@PathParam("id") String id) {
         if (StringUtils.isEmpty(id)) {
-            throw new BadRequestException();
+            throw new BadRequestException("is not specified");
         }
         return addressService.getById(id);
     }
@@ -52,7 +52,7 @@ public class AddressComponentResource {
     @Path("/search")
     public List<AddressComponent> searchByName(@QueryParam("name") String name) {
         if (StringUtils.isEmpty(name)) {
-            throw new BadRequestException();
+            throw new BadRequestException("name is not specified");
         }
         return addressService.searchAddress(name);
     }
@@ -60,9 +60,9 @@ public class AddressComponentResource {
     @GET
     public List<AddressComponent> getByParent(@QueryParam("parent_id") String parentId) {
         if (StringUtils.isEmpty(parentId)) {
-            throw new BadRequestException();
+            throw new BadRequestException("parent_id is not specified");
         }
-        return Collections.emptyList();
+        return addressService.findByParentId(parentId);
     }
 
 }

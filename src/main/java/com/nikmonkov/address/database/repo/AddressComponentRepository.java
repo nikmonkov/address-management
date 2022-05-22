@@ -13,4 +13,8 @@ public class AddressComponentRepository implements PanacheRepositoryBase<Address
     public List<AddressComponentEntity> findByName(String name) {
         return find("name", name).list();
     }
+
+    public List<AddressComponentEntity> findByParentId(String parentId) {
+        return find("parent_id", parentId).list();
+    }
 }
